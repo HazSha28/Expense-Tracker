@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static String URL="jdbc:mysql://localhost:3306/expensetracker";
+    private static String URL="jdbc:mysql://localhost:3306/expense_tracker";
     private static String USERNAME="root";
     private static String PASSWORD="Open05##";
     static{

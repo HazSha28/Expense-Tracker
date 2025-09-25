@@ -4,10 +4,11 @@ public class Category {
     private int catId;
     private String catName;
 
-    Category(String catName) {
+    public Category(String catName) {   // 👈 Make this constructor public
         this.catName = catName;
     }
-    Category(int catId, String catName) {
+
+    public Category(int catId, String catName) {
         this.catId = catId;
         this.catName = catName;
     }

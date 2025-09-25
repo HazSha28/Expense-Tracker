@@ -1,0 +1,44 @@
+package com.expense_tracker;
+
+//database setup
+import java.sql.Connection;
+import java.sql.SQLException;
+
+//SwingUI setup
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+//own project imports
+import com.expense_tracker.gui.MainGUI; // ✅ Change: load MainGUI instead of CategoryGUI
+import com.expense_tracker.util.DatabaseConnection;
+
+public class Main {
+    public static void main(String[] args) {
+        DatabaseConnection db_Connection = new DatabaseConnection();
+        //db connection test
+        try {
+            Connection cn = db_Connection.getDBConnection();
+            System.out.println("Connected to the database");
+        } catch (SQLException e) {
+            System.out.println("Failed to connect to the database " + e.getMessage());
+            System.exit(1);
+        }
+
+        //UI setup test
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            System.err.println("Could not set look and feel " + e.getMessage());
+        }
+        
+        //launch the Main GUI in the Event Dispatch Thread
+        SwingUtilities.invokeLater(() -> {
+            try {
+                new MainGUI().setVisible(true); // ✅ Launch MainGUI
+            } catch (Exception e) {
+                System.err.println("Error starting the application " + e.getLocalizedMessage());
+            }
+        });
+    }
+}
