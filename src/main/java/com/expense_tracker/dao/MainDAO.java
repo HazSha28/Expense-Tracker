@@ -13,6 +13,16 @@ public class MainDAO {
 private static final String GET_ALL_CATEGORIES = "SELECT * FROM category ORDER BY category_id";
 private static final String DELETE_CATEGORY = "DELETE FROM category WHERE category_id = ?";
 
+public int getNextAvailableId() throws SQLException {
+    List<Category> cats = getAllCategories();
+    int next = 1;
+    for (Category c : cats) {
+        if (c.getCatId() != next) break;
+        next++;
+    }
+    return next;
+}
+
 public void addCategory(Category cat) throws SQLException {
     try (Connection conn = DatabaseConnection.getDBConnection();
          PreparedStatement ps = conn.prepareStatement(ADD_CATEGORY)) {
@@ -43,4 +53,15 @@ public void deleteCategory(int categoryId) throws SQLException {
     }
 
 }
+
+public void updateCategory(int catId, String newName) throws SQLException {
+    String sql = "UPDATE category SET name = ? WHERE category_id = ?";
+    try (Connection conn = DatabaseConnection.getDBConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, newName);
+        ps.setInt(2, catId);
+        ps.executeUpdate();
+    }
+}
+
 }
